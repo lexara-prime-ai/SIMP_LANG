@@ -1,0 +1,31 @@
+/*
+
+    The following grammar defines the syntax and
+    semantics where each <Program> consists of expressions
+    (Expr).
+
+    Expressions are either unary (-1) or binary (1 + 2).
+    Unary or Binary expressions are made of <Term> and
+    <Operator ("+" and "-").
+
+    The only [atom] is integer <Int>.
+
+*/
+
+Program = _{ SOI ~ Expr ~ EOF }
+
+Expr = { UnaryExpr | BinaryExpr | Term }
+
+Term = _{Int | "(" ~ Expr ~ ")" }
+
+UnaryExpr = { Operator ~ Term }
+
+BinaryExpr = { Term ~ (Operator ~ Term)+ }
+
+Operator = { "+" | "-" }
+
+Int = @{ Operator? ~ ASCII_DIGIT+ }
+
+WHITESPACE = _{ " " | "\t" }
+
+EOF = _{ EOI | ";" }
